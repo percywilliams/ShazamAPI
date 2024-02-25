@@ -106,6 +106,13 @@ class Shazam:
             headers=self._endpoint.headers,
             json=data
         )
+        
+        # added status code check
+        if r.status_code != 200:
+            # Log or handle bad request here (status code 400)
+            error_message = f"Request failed with status: {r.status_code}, Response content: {r.text}"
+            raise Exception(error_message)
+    
         return r.json()
     
     def normalizateAudioData(self, songData: bytes) -> AudioSegment:
